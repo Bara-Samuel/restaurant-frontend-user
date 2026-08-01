@@ -10,7 +10,7 @@ import {
 
 import { useCart } from "../../CartContext/CartContext";
 
-const API_URL = "http://localhost:4000";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/orders`;
 
 const getRequestConfig = () => {
   const token = localStorage.getItem("authToken");

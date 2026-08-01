@@ -13,7 +13,7 @@ import {
 import { HiMinus, HiPlus } from "react-icons/hi";
 import FloatingParticle from "../FloatingParticle/FloatingParticle";
 
-const API_URL = "http://localhost:4000";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/items`;
 
 const headingAnimation = {
   hidden: { opacity: 0, y: 35 },

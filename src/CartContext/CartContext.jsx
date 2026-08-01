@@ -10,7 +10,7 @@ import axios from "axios";
 
 const CartContext = createContext(null);
 
-const API_URL = "http://localhost:4000/api/cart";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/cart`;
 
 /**
  * Converts prices such as:
@@ -99,7 +99,7 @@ const sanitizeCart = (cart) => {
         imagePath &&
         !imagePath.startsWith("http://") &&
         !imagePath.startsWith("https://")
-          ? `http://localhost:4000${imagePath}`
+          ? `${import.meta.env.VITE_API_URL}${imagePath}`
           : imagePath;
 
       return {

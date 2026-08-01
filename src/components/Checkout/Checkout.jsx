@@ -14,7 +14,7 @@ import {
 
 import { useCart } from "../../CartContext/CartContext";
 
-const API_URL = "http://localhost:4000";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/orders`;
 
 const TAX_RATE = 0.075;
 

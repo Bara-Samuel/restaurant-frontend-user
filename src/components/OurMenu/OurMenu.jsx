@@ -12,7 +12,7 @@ import {
 import { useCart } from "../../CartContext/CartContext";
 import "./OurMenu.css";
 
-const API_URL = "http://localhost:4000";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/items`;
 
 const categories = [
   { label: "Soups", key: "soups" },
