@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 
 import { useCart } from "../../CartContext/CartContext";
-import "./OurMenu.css";
+import "./OurHomeMenu.css";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/items`;
 
