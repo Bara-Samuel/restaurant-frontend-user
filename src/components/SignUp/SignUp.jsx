@@ -115,7 +115,7 @@ const SignUp = ({ onBackToLogin }) => {
       };
 
       const response = await axios.post(
-        `${API_URL}/api/user/register`,
+        `${API_URL}/register`,
         registrationData,
         {
           headers: {

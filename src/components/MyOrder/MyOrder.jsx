@@ -70,7 +70,7 @@ const MyOrder = () => {
 
       try {
         const response = await axios.get(
-          `${API_URL}/api/orders`,
+          API_URL,
           getRequestConfig()
         );
 

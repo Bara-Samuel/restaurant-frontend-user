@@ -130,7 +130,7 @@ const Login = ({
       };
 
       const response = await axios.post(
-        `${API_URL}/api/user/login`,
+        `${API_URL}/login`,
         loginData,
         {
           headers: {
