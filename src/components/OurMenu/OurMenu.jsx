@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 
 import { useCart } from "../../CartContext/CartContext";
+import Login from "../Login/Login";
 import "./OurMenu.css";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/items`;
@@ -107,6 +108,12 @@ const OurMenu = () => {
     useState("");
 
   const [updatingItemId, setUpdatingItemId] =
+    useState(null);
+
+  const [showLoginModal, setShowLoginModal] =
+    useState(false);
+
+  const [pendingCartItem, setPendingCartItem] =
     useState(null);
 
   const {
@@ -214,6 +221,17 @@ const OurMenu = () => {
       return;
     }
 
+    // Require login before adding to cart. If there's no token,
+    // remember which item was being added and show the login modal
+    // instead of sending a request that the backend will reject.
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      setPendingCartItem(item);
+      setShowLoginModal(true);
+      return;
+    }
+
     setUpdatingItemId(item._id);
 
     try {
@@ -221,6 +239,33 @@ const OurMenu = () => {
     } catch (error) {
       console.error(
         "Could not add item:",
+        error.response?.data ??
+          error.message ??
+          error
+      );
+    } finally {
+      setUpdatingItemId(null);
+    }
+  };
+
+  // Runs after a successful login triggered by trying to add an item
+  // while logged out — finishes adding whichever item was pending.
+  const handleLoginSuccess = async () => {
+    setShowLoginModal(false);
+
+    if (!pendingCartItem) {
+      return;
+    }
+
+    const itemToAdd = pendingCartItem;
+    setPendingCartItem(null);
+    setUpdatingItemId(itemToAdd._id);
+
+    try {
+      await addToCart(itemToAdd, 1);
+    } catch (error) {
+      console.error(
+        "Could not add item after login:",
         error.response?.data ??
           error.message ??
           error
@@ -317,6 +362,32 @@ const OurMenu = () => {
       bg-linear-to-br from-[#120c08] via-[#1f1710] to-[#073b2c]
       px-4 py-20 text-white sm:px-6 lg:px-8"
     >
+      {/* Login modal — shown when adding to cart while logged out */}
+      <AnimatePresence>
+        {showLoginModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[90] flex items-center
+            justify-center bg-black/70 backdrop-blur-sm px-4"
+            onClick={() => setShowLoginModal(false)}
+          >
+            <div
+              className="relative w-full max-w-md rounded-[2rem]
+              border border-emerald-400/20 bg-[#100a07]/95 p-8
+              shadow-2xl shadow-black/40"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <Login
+                onLoginSuccess={handleLoginSuccess}
+                onClose={() => setShowLoginModal(false)}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Decorative background */}
       <div className="pointer-events-none absolute inset-0">
         <motion.div
