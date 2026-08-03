@@ -80,7 +80,7 @@ const SpecialOffer = () => {
       setLoadError("");
 
       try {
-        const response = await axios.get(`${API_URL}/api/items`);
+        const response = await axios.get(API_URL);
 
         const data = Array.isArray(response.data)
           ? response.data

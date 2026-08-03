@@ -122,9 +122,7 @@ const OurMenu = () => {
       setMenuError("");
 
       try {
-        const response = await axios.get(
-          `${API_URL}/api/items`
-        );
+        const response = await axios.get(API_URL);
 
         const items = Array.isArray(response.data)
           ? response.data
